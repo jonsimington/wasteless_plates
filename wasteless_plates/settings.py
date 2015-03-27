@@ -36,7 +36,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'recipes'
+
+    'wasteless_plates.recipes'
 )
 
 MIDDLEWARE_CLASSES = (
