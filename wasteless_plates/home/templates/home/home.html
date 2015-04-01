@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1 class="text-center">Welcome to Wasteless Plates!</h1>
+  
+  <br><br>
+
+  <h2 class="text-center">Enter ingredients, separated by commas, below to generate a minimal recipe list.</h2>
+
+  <br>
+
+  <div class="text-center">
+    <form class="form-inline">
+      <input id="ingredients-input" type="text" class="form-control" name="q" placeholder="Ingredients">
+      <button id="ingredients-submit" type="submit" class="btn btn-info">Submit</button>
+    </form>
+  </div>
+{% endblock %}
