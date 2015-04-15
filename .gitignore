@@ -1,6 +1,7 @@
 # Database
 db.sqlite3
 
+secret_settings.py
 .idea/
 */migrations/
 

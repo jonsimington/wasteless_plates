@@ -13,10 +13,10 @@ SECRET_KEY = '%n@()m&!ie01263sea(lwj0lnk1vuv56jy)ppt*&1q@085%!rh'
 try:
     from secret_settings import *
 except ImportError:
-    print "Couldn't find secret_settings file. Creating a new one."
+    print("Couldn't find secret_settings file. Creating a new one.")
     secret_settings_loc = os.path.join(SETTINGS_DIR, "secret_settings.py")
     with open(secret_settings_loc, 'w') as secret_settings:
-        secret_key = ''.join([chr(ord(x) % 90 + 33) for x in os.urandom(40)])
+        secret_key = ''.join([chr(ord(str(x)) % 90 + 33) for x in os.urandom(40)])
         secret_settings.write("SECRET_KEY = '''%s'''\n" % secret_key)
         from secret_settings import *
         
