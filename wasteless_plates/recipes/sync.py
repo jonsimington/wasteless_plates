@@ -1,15 +1,23 @@
 __author__ = 'connor'
 
+# Fucking hack
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "wasteless_plates.settings")
+
+# Another hack
+import django
+django.setup()
 
 # Python imports
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 
+# Django imports
+from django.db.utils import IntegrityError
+
 # Local imports
-from wasteless_plates.recipes.models import Ingredient, Recipe
+from wasteless_plates.recipes.models import Ingredient, Recipe, Item
 
 # BigOven API Key
 API_KEY = 'dvxU8G36Kk30y4nP340XnQ0VL8RdJQpF'
@@ -64,8 +72,13 @@ def sync_recipe(r):
     # Parse from xml into etree
     data = ET.fromstring(page.read().decode())
 
-    # Create recipe object in database
-    recipe = Recipe.objects.create(recipe_name=data.find('Title').text, bigoven_id=int(data.find('RecipeID').text))
+    # For future use, get the Bigoven ID
+    bo_id = int(data.find('RecipeID').text)
+
+    try:  # If we don't already have that recipe in the database
+        recipe = Recipe.objects.create(recipe_name=data.find('Title').text, bigoven_id=int(data.find('RecipeID').text))
+    except IntegrityError:  # If we do
+        return
 
     # For ingredient in recipe
     for i in data.iter('Ingredient'):
@@ -79,13 +92,18 @@ def sync_recipe(r):
                 unit = 'None'
             quantity = i.find('Quantity').text
 
+            try:
+                item = Item.objects.create(name=name)
+            except IntegrityError:
+                item = Item.objects.filter(name=name)[0]
+
             # Create Ingredient object in database
-            Ingredient.objects.create(
+            ingredient = Ingredient.objects.create(
                 recipe=recipe,
-                name=name,
+                item=item,
                 unit=unit,
                 amount=quantity
             )
 
 
-sync_all(1, 3)
+sync_all(1, 30)
