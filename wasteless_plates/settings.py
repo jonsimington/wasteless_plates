@@ -3,6 +3,8 @@ import os
 SETTINGS_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_DIR = os.path.dirname(SETTINGS_DIR)
 
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "wasteless_plates.settings")
+
 ##################################################################
 #
 # SECRET SETTINGS

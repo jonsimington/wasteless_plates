@@ -2,7 +2,10 @@ __author__ = 'connor'
 
 # Fucking hack
 import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "wasteless_plates.settings")
+
+# get env var for number of syncs
+num_syncs = os.environ['NUM_SYNCS']
+print(num_syncs)
 
 # Another hack
 import django
@@ -43,7 +46,7 @@ GET_URL_PARAMS = {
 # One run command for syncing recipes to the database
 def sync_all(page, results_per_page):
     # Build our search parameters
-    SEARCH_URL_PARAMS['pg'] = page
+    SEARCH_URL_PARAMS['pg'] = num_syncs
     SEARCH_URL_PARAMS['rpp'] = results_per_page
 
     # Build url and query

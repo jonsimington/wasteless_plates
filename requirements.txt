@@ -2,3 +2,4 @@ django
 django-allauth
 bleach
 markdown
+parse
