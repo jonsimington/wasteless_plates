@@ -1,5 +1,4 @@
 django==1.7
 django-allauth
-bleach
 markdown
 parse
