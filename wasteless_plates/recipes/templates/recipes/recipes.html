@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1 class="text-center">Here are some different recipes for your food!</h1>
+
+  <br><br>
+
+  <h2> All these recipes contain the ingredients that you have! </h2>
+
+  <br>
+
+  <ul>
+    {% for recipes in valid_recipes %}
+      <li> valid_recipes.name </li>
+    {% endfor %}
+  </ul>
+
+  </div>
+{% endblock %}
