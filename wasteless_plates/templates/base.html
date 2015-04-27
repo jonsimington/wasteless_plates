@@ -30,14 +30,13 @@
 
   <body>
     {% include "navbar.html" %}
-    
+
     <div class="container">
       <div class="row">
         {% block content %}{% endblock %}
         {% block sidebar %}{% endblock %}
       </div>
     </div>
-
     <!-- Scripts -->
     <!-- Put them at the end so the page loads faster -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.6.2/less.min.js" type="text/javascript"></script>
