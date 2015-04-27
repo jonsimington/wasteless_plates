@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.http import HttpResponse
 # Create your views here.
 def SearchView(request):
     #get the string after'q=' in url -> commma seperated list of ingredients
