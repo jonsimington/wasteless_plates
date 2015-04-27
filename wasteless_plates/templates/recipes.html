@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1 class="text-center">Here are some different recipes for your food!</h1>
+
+  <br><br>
+
+
+
+
+
+  <ul>
+      <h2> All these recipes contain the ingredients that you have! </h2>
+      <br>
+      {% if recipes %}
+        {% for recipe in recipes %}
+          <li> {{ recipe.recipe_name }} </li>
+        {% endfor %}
+      {% else %}
+        <h2> YOU HAVE NO RECIPES! </h2>
+      {% endif %}
+  </ul>
+
+  </div>
+{% endblock %}
