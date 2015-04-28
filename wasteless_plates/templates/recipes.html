@@ -3,6 +3,7 @@
 {% block content %}
 <h1 class="text-center">Here are some different recipes for your food!</h1>
 
+<a href="/"><button type="button" class="btn btn-primary"> Search with different ingredients! </button></a>
   <br><br>
 
   <ul>
@@ -13,7 +14,7 @@
           <a href="http://www.bigoven.com/recipe/{{ recipe.bigoven_id }}"><li> {{ recipe.recipe_name }} </li></a>
         {% endfor %}
       {% else %}
-        <h2> YOU HAVE NO RECIPES! </h2>
+        <h2> The combination of ingredients you entered yields no recipes! </h2>
       {% endif %}
   </ul>
 {% endblock %}

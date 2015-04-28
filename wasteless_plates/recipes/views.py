@@ -1,42 +1,6 @@
 from django.shortcuts import render_to_response
 from wasteless_plates.recipes.models import Recipe
 
-# Create your views here.
-"""
-def SearchView(request):
-    #get the string after'q=' in url -> commma seperated list of ingredients
-    query = request.GET.get('q')
-
-    #redirect to the results page
-    if query:
-        return HttpResponseRedirect("/search/results/" + query)
-    #else its invalid and send back to search bar
-    else:
-        return HttpResponseRedirect("/")
-
-
-class SearchResultsView(TemplateView):
-    #get string from kwargs
-    query = self.kwargs['query']
-
-    #get rid of the commas
-    ingredients = [x.strip() for x in query.split(',')]
-
-    shit_list = list()
-
-    for i in ingredients:
-        shit_list += Recipe.objects.filter(ingredient__item__exact='ingredients').filter()
-
-    validRecipes=Recipe.objects.filter(ingredient__item__exact='ingredients')
-
-    context = list()
-
-    context = validRecipes
-
-    return context
-"""
-
-
 def results(request):
     # We're getting from the index page
     if request.method == 'GET':
@@ -52,7 +16,7 @@ def results(request):
             # We use contains here because naming conventions from BigOven are not standardized
             all_recipes += Recipe.objects.filter(ingredient__item__name__contains=i)
 
-        # This is where we remove duplicates. This was my fault on the db end.
+        # This is where we remove duplicates.
         all_recipes = list(set(all_recipes))
 
         # Return the response
