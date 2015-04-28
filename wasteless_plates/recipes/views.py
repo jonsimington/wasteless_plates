@@ -29,3 +29,22 @@ def results(request):
     return render_to_response('recipes.html', {
         'recipes': Recipe.objects.filter(ingredient__item__name__contains='FAILED')
     })
+
+
+def recipeResult(request):
+    #We're getting from the index page
+    if request.method == 'GET':
+        #The string the user entered
+        user_query = request.GET['recipeQuery']
+
+        all_recipes = list()
+        for i in user_query:
+            all_recipes += Recipe.objects.filter(recipe_name__contains=user_query)
+
+        all_recipes = list(set(all_recipes))
+
+
+        return render_to_response('recipes.html', {
+            'validRecipes': all_recipes
+
+        })

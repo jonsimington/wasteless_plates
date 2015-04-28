@@ -6,15 +6,27 @@
 <a href="/"><button type="button" class="btn btn-primary"> Search with different ingredients! </button></a>
   <br><br>
 
+
+  {% if validRecipe %}
   <ul>
-      <h2> All these recipes contain the ingredients that you have! </h2>
-      <br>
-      {% if recipes %}
-        {% for recipe in recipes %}
-          <a href="http://www.bigoven.com/recipe/{{ recipe.bigoven_id }}"><li> {{ recipe.recipe_name }} </li></a>
-        {% endfor %}
-      {% else %}
-        <h2> The combination of ingredients you entered yields no recipes! </h2>
-      {% endif %}
+    <h2> Here are some recipes simiar to the ones you searched!</h2>
+    <h3> Check them out with their link to Big Oven. </h3>
+
+    {% for recipe in validRecipes %}
+      <a href="http://www.bigoven.com/recipe/{{ recipe.bigoven_id }}"><li> {{ recipe.recipe_name }} </li></a>
+    {% endfor %}
   </ul>
+  {% else %}
+    <ul>
+        <h2> All these recipes contain the ingredients that you have! </h2>
+        <br>
+        {% if recipes %}
+          {% for recipe in recipes %}
+            <a href="http://www.bigoven.com/recipe/{{ recipe.bigoven_id }}"><li> {{ recipe.recipe_name }} </li></a>
+          {% endfor %}
+        {% else %}
+          <h2> The combination of ingredients you entered yields no recipes! </h2>
+        {% endif %}
+    </ul>
+  {% endif %}
 {% endblock %}
