@@ -17,13 +17,14 @@
             Home
           </a>
         </li>
-
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
         {% if user.is_authenticated %}
-        <li>
-          <a href="{{ user.profile.get_absolute_url }}">
-            <strong>{{ user.username }}</strong>
-          </a>
-        </li>
+          <li>
+            <a href="{{ user.profile.get_absolute_url }}">
+              <strong>{{ user.username }}</strong>
+            </a>
+          </li>
         {% if user.is_staff %}
           <li>
             <a href="/admin/">
