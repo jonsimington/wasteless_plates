@@ -1,4 +1,8 @@
-from models import Recipe
+# Another hack
+import django
+django.setup()
+
+from wasteless_plates.recipes.models import Recipe, Nutrition
 
 import requests, json
 
@@ -19,30 +23,31 @@ for recipe in recipes:
     # get approximate macros for each ingredient
     for ingredient in recipe.ingredient_set.all():
         # USDA food search API call
+        print (ingredient)
         url="http://api.nal.usda.gov/usda/ndb/search/?format=json&q=" + ingredient.item.name + "&api_key=" + api_key + "&max=1"
         r = requests.get(url)
         ingredient_json = json.loads(r.text)
+        print(ingredient_json)
         
         # id of ingredient in USDA db
-        ndbno = ingredient_json['list']['item'][0]['ndbno']
+        try:
+            ndbno = ingredient_json['list']['item'][0]['ndbno']
         
-        # USDA nutrient API call
-        ingredient_url = "http://api.nal.usda.gov/usda/ndb/nutrients/?format=json&api_key=" + api_key + "&nutrients=205&nutrients=204&nutrients=208&nutrients=307&nutrients=203&ndbno=" + ndbno
-        
-        r = requests.get(ingredient_url)
-        nutrient_json = json.loads(r.text)
-        
-        # add ingredient's macro values to the total for the recipe
-        sugar += (float(nutrient_json['report']['foods'][0]['nutrients'][3]['value']) * ingredient.amount)
-        fat += (float(nutrient_json['report']['foods'][0]['nutrients'][1]['value']) * ingredient.amount)
-        calories += (float(nutrient_json['report']['foods'][0]['nutrients'][4]['value']) * ingredient.amount)
-        sodium += (float(nutrient_json['report']['foods'][0]['nutrients'][2]['value']) * ingredient.amount)
-        protein += (float(nutrient_json['report']['foods'][0]['nutrients'][0]['value']) * ingredient.amount)
-        
+            # USDA nutrient API call
+            ingredient_url = "http://api.nal.usda.gov/usda/ndb/nutrients/?format=json&api_key=" + api_key + "&nutrients=205&nutrients=204&nutrients=208&nutrients=307&nutrients=203&ndbno=" + ndbno
+            
+            r = requests.get(ingredient_url)
+            nutrient_json = json.loads(r.text)
+            
+            # add ingredient's macro values to the total for the recipe
+            sugar += (float(nutrient_json['report']['foods'][0]['nutrients'][3]['value']) * ingredient.amount)
+            fat += (float(nutrient_json['report']['foods'][0]['nutrients'][1]['value']) * ingredient.amount)
+            calories += (float(nutrient_json['report']['foods'][0]['nutrients'][4]['value']) * ingredient.amount)
+            sodium += (float(nutrient_json['report']['foods'][0]['nutrients'][2]['value']) * ingredient.amount)
+            protein += (float(nutrient_json['report']['foods'][0]['nutrients'][0]['value']) * ingredient.amount)
+        except:
+            pass
 
-    # set macronutrient amounts for the recipe
-    recipe.nutrition_info.sugar = sugar
-    recipe.nutrition_info.total_fat = fat
-    recipe.nutrition_info.sodium = sodium
-    recipe.nutrition_info.calories = calories
-    recipe.nutrition_info.protein = protein
+    # create nutrition object with the values determined from food search
+    recipe.nutrition_info = Nutrition.objects.create(calories=calories, total_fat=fat, sodium=sodium, sugar=sugar, protein=protein)
+    recipe.save()
