@@ -12,7 +12,6 @@ class Recipe(models.Model):
     def __str__(self):
         return self.recipe_name
 
-
 @python_2_unicode_compatible
 class Ingredient(models.Model):
     recipe = models.ForeignKey('Recipe')
@@ -42,3 +41,4 @@ class Item(models.Model):
 
     def __str__(self):
         return self.name
+
