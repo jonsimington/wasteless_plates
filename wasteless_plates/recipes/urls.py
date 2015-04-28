@@ -7,11 +7,11 @@ urlpatterns = patterns('',
     url(
         r'^results/$',
         'wasteless_plates.recipes.views.results'
-    ),
+    )
 
     #for the recipe search
 #    url(
 #        r'^recipeResult/$',
 #        'wasteless_plates.recipes.views.recipeResult'
-    )
+#    )
 )
