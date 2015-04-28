@@ -1,27 +1,55 @@
 {% extends "base.html" %}
 
+{% load recipe_tags %}
+
+{% block title %}
+  Wasteless Plates Results
+{% endblock %}
+
 {% block content %}
-  <ul>
-    {% if recipes %}
-      <h2 class="text-center">Here are some recipes that contain the ingredients you requested:</h2>
-      {% for recipe in recipes %}
-        <a href="http://www.bigoven.com/recipe/{{ recipe.bigoven_id }}"><li> {{ recipe.recipe_name }} </li></a>
-      {% endfor %}
-      <div class="text-center">
-	<h2>Not the results you were looking for?  Search again with new ingredients.</h2>
-	<form class="form-inline" action="/recipes/results/" method="get">
-	  <input id="ingredients-input" type="text" class="form-control" name="q" placeholder="Ingredients">
-	  <button id="ingredients-submit" type="submit" class="btn btn-info">Submit</button>
-	</form>
-      </div>
-    {% else %}
-      <div class="text-center">
-	<h2> Whoops! The combination of ingredients you entered yields no recipes! Try a new search.</h2>
-	<form class="form-inline" action="/recipes/results/" method="get">
-	  <input id="ingredients-input" type="text" class="form-control" name="q" placeholder="Ingredients">
-	  <button id="ingredients-submit" type="submit" class="btn btn-info">Submit</button>
-	</form>
-      </div>
-    {% endif %}
-  </ul>
+  <div class="col-md-12">
+  {% if recipes %}
+    <h2 class="text-center">Here is a random assortment of recipes that contain the ingredients you requested:</h2>
+    <br>
+    <div class="row">
+      <ul class="list-unstyled">
+	{% for recipe in recipes %}
+          <div class="well col-md-6 text-center">
+	    <li>
+              <a href="http://www.bigoven.com/recipe/{{ recipe.bigoven_id }}">
+		<h4 class="pull-left">{{ recipe.recipe_name }}</h4>
+	      </a>
+	      <h4 class="pull-right">
+		Calories: {{ recipe.nutrition_info.calories }}
+		<br>
+		Fat: {{ recipe.nutrition_info.total_fat }} g
+		<br>
+		Carbohydrates: {{ recipe.nutrition_info.sugar }} g
+		<br>
+		Sodium: {{ recipe.nutrition_info.sodium }} mg
+		<br>
+		Protein: {{ recipe.nutrition_info.protein }} g
+	      </h4>
+	    </li>
+	  </div>
+	{% endfor %}
+      </ul>
+    </div>
+    <div class="text-center">
+      <h2>Not the results you were looking for?  Search again with new ingredients.</h2>
+      <form class="form-inline" action="/recipes/results/" method="get">
+	<input id="ingredients-input" type="text" class="form-control" name="q" placeholder="Ingredients">
+	<button id="ingredients-submit" type="submit" class="btn btn-info">Submit</button>
+      </form>
+    </div>
+  {% else %}
+    <div class="text-center">
+      <h2> Whoops! The combination of ingredients you entered yields no recipes! Try a new search.</h2>
+      <form class="form-inline" action="/recipes/results/" method="get">
+	<input id="ingredients-input" type="text" class="form-control" name="q" placeholder="Ingredients">
+	<button id="ingredients-submit" type="submit" class="btn btn-info">Submit</button>
+      </form>
+    </div>
+  {% endif %}
+  </div>
 {% endblock %}
