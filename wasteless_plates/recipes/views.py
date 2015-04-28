@@ -30,7 +30,7 @@ def results(request):
         'recipes': Recipe.objects.filter(ingredient__item__name__contains='FAILED')
     })
 
-
+"""
 def recipeResult(request):
     #We're getting from the index page
     if request.method == 'GET':
@@ -48,3 +48,4 @@ def recipeResult(request):
             'validRecipes': all_recipes
 
         })
+"""
