@@ -1,6 +1,5 @@
 from django.shortcuts import render_to_response
-from wasteless_plates.recipes.models import Recipe, Ingredient
-import random
+from wasteless_plates.recipes.models import Recipe
 
 
 def results(request):
@@ -29,9 +28,9 @@ def results(request):
         return render_to_response('recipes.html', {
             'recipes': all_recipes[0]
         })
+
     # Should never get here but if it does, returned that they failed.
     # (This will be apparent if they access url directly)
     return render_to_response('recipes.html', {
         'recipes': Recipe.objects.filter(ingredient__item__name__contains='FAILED')
     })
-
