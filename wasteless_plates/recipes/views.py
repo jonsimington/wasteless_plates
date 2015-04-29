@@ -12,16 +12,20 @@ def results(request):
 
         # Initialize the list and cycle through recipe objects filtering for ingredients
         all_recipes = list()
-        for i in ingredients:
-            # We use contains here because naming conventions from BigOven are not standardized
-            all_recipes += Recipe.objects.filter(ingredient__item__name__contains=i)
 
-        # This is where we remove duplicates.
-        all_recipes = list(set(all_recipes))
+        # For every ingredient, we create a set in the list all_recipes including the ingredients used
+        for i in range(len(ingredients)):
+            # We use contains here because naming conventions from BigOven are not standardized
+            all_recipes.append(set(Recipe.objects.filter(ingredient__item__name__contains=ingredients[i])))
+
+        # This is where we actually use the intersections
+        if len(ingredients) > 1:
+            for i in range(len(ingredients) - 1):
+                all_recipes[0] = all_recipes[i].intersection(all_recipes[i+1])
 
         # Return the response
         return render_to_response('recipes.html', {
-            'recipes': all_recipes
+            'recipes': all_recipes[0]
         })
 
     # Should never get here but if it does, returned that they failed.
@@ -29,23 +33,3 @@ def results(request):
     return render_to_response('recipes.html', {
         'recipes': Recipe.objects.filter(ingredient__item__name__contains='FAILED')
     })
-
-"""
-def recipeResult(request):
-    #We're getting from the index page
-    if request.method == 'GET':
-        #The string the user entered
-        user_query = request.GET['recipeQuery']
-
-        all_recipes = list()
-        for i in user_query:
-            all_recipes += Recipe.objects.filter(recipe_name__contains=user_query)
-
-        all_recipes = list(set(all_recipes))
-
-
-        return render_to_response('recipes.html', {
-            'validRecipes': all_recipes
-
-        })
-"""
