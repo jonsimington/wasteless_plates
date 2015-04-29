@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response
 from wasteless_plates.recipes.models import Recipe
 
+
 def results(request):
     # We're getting from the index page
     if request.method == 'GET':
@@ -14,8 +15,12 @@ def results(request):
 
         # For every ingredient, we create a set in the list all_recipes including the ingredients used
         for i in ingredients:
+            i = i.lstrip().rstrip()
             # We use contains here because naming conventions from BigOven are not standardized
-            recipe_set = recipe_set.intersection(set(Recipe.objects.filter(ingredient__item__name__contains=i)))
+            print(i)
+            temp = set(Recipe.objects.filter(ingredient__item__name__contains=i))
+            print(temp)
+            recipe_set = recipe_set.intersection(temp)
 
         # Return the response
         return render_to_response('recipes.html', {
