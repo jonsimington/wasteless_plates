@@ -10,22 +10,16 @@ def results(request):
         # The ingredients in the original query split by the commas
         ingredients = user_query.split(',')
 
-        # Initialize the list and cycle through recipe objects filtering for ingredients
-        all_recipes = list()
+        recipe_set = set(Recipe.objects.filter(ingredient__item__name__contains=ingredients[0]))
 
         # For every ingredient, we create a set in the list all_recipes including the ingredients used
-        for i in range(len(ingredients)):
+        for i in ingredients:
             # We use contains here because naming conventions from BigOven are not standardized
-            all_recipes.append(set(Recipe.objects.filter(ingredient__item__name__contains=ingredients[i])))
-
-        # This is where we actually use the intersections
-        if len(ingredients) > 1:
-            for i in range(len(ingredients) - 1):
-                all_recipes[0] = all_recipes[i].intersection(all_recipes[i+1])
+            recipe_set = recipe_set.intersection(set(Recipe.objects.filter(ingredient__item__name__contains=i)))
 
         # Return the response
         return render_to_response('recipes.html', {
-            'recipes': all_recipes[0]
+            'recipes': recipe_set
         })
 
     # Should never get here but if it does, returned that they failed.
