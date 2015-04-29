@@ -10,7 +10,7 @@ class Recipe(models.Model):
     nutrition_info = models.OneToOneField('Nutrition', null=True)
 
     def __str__(self):
-        return self.recipe_name
+        return str(self.recipe_name)
 
 @python_2_unicode_compatible
 class Ingredient(models.Model):
@@ -32,7 +32,7 @@ class Nutrition(models.Model):
     protein = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
 
 @python_2_unicode_compatible
