@@ -6,9 +6,11 @@
   <br><br>
 
   <ul>
-      <h2> All these recipes contain the ingredients that you have! </h2>
-      <br>
+
+
       {% if recipes %}
+          <h2> All these recipes contain the ingredients that you have! </h2>
+          <br>
         {% for recipe in recipes %}
           <a href="http://www.bigoven.com/recipe/{{ recipe.bigoven_id }}"><li> {{ recipe.recipe_name }} </li></a>
         {% endfor %}
